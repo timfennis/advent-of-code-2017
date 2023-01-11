@@ -3,10 +3,21 @@
 
 int main()
 {
+    char buf[4096];
+
     FILE *fp;
     fp = fopen("./inputs/day1.txt", "r");
-    char buf[4096];
-    fgets(buf, 4096, fp);
+
+    if (fp)
+    {
+        fgets(buf, 4096, fp);
+        fclose(fp);
+    }
+    else
+    {
+        fprintf(stderr, "unable to read file");
+        return 1;
+    }
 
     int len = -1;
     for (int i = 0; i < 4096; i++)
@@ -38,4 +49,5 @@ int main()
     }
 
     printf("part 1 = %d\npart 2 = %d\n", sum_1, sum_2);
+    return 0;
 }
