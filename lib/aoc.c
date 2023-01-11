@@ -12,3 +12,4 @@ int as_digit(const char c, const int radix)
         return n;
     }
 }
+
