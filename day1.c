@@ -7,7 +7,7 @@ int main()
     char *buf;
     int size;
     FILE *fp;
-    if (fp = fopen("./inputs/day1.txt", "r"))
+    if ((fp = fopen("./inputs/day1.txt", "r")))
     {
         fseek(fp, 0, SEEK_END);
         size = ftell(fp) + 1; // needs 1 extra byte for \0
