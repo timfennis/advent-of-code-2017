@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "lib/aoc.h"
 
 int main()
 {
@@ -39,10 +40,6 @@ int main()
             len = i;
             break;
         }
-        else
-        {
-            buf[i] -= '0';
-        }
     }
 
     int offset = len / 2;
@@ -52,11 +49,11 @@ int main()
     {
         if (buf[i] == buf[(i + offset) % len])
         {
-            sum_2 += buf[i];
+            sum_2 += as_digit(buf[i], 10);
         }
         if (buf[i] == buf[(i + 1) % len])
         {
-            sum_1 += buf[i];
+            sum_1 += as_digit(buf[i], 10);
         }
     }
 

@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+DAY='day1.c'
+gcc -o main $DAY lib/aoc.c && ./main
