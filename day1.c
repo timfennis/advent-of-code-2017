@@ -3,14 +3,26 @@
 
 int main()
 {
-    char buf[4096];
-
+    char *buf;
     FILE *fp;
     fp = fopen("./inputs/day1.txt", "r");
-
     if (fp)
     {
-        fgets(buf, 4096, fp);
+        fseek(fp, 0, SEEK_END);
+        int size = ftell(fp);
+
+        if (size > 1024 * 1024 * 1024)
+        {
+            fprintf(stderr, "file size is kinda sus");
+            fclose(fp);
+            return 1;
+        }
+        else
+        {
+            fseek(fp, 0, SEEK_SET); // seek back to beginning of file
+            buf = (char *)malloc(size);
+            fgets(buf, size, fp);
+        }
         fclose(fp);
     }
     else
@@ -20,7 +32,7 @@ int main()
     }
 
     int len = -1;
-    for (int i = 0; i < 4096; i++)
+    for (int i = 0;; i++)
     {
         if (buf[i] == '\0')
         {
@@ -47,6 +59,8 @@ int main()
             sum_1 += buf[i];
         }
     }
+
+    free(buf);
 
     printf("part 1 = %d\npart 2 = %d\n", sum_1, sum_2);
     return 0;
