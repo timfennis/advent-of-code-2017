@@ -5,12 +5,12 @@
 int main()
 {
     char *buf;
+    int size;
     FILE *fp;
-    fp = fopen("./inputs/day1.txt", "r");
-    if (fp)
+    if (fp = fopen("./inputs/day1.txt", "r"))
     {
         fseek(fp, 0, SEEK_END);
-        int size = ftell(fp);
+        size = ftell(fp) + 1; // needs 1 extra byte for \0
 
         if (size > 1024 * 1024 * 1024)
         {
@@ -32,28 +32,17 @@ int main()
         return 1;
     }
 
-    int len = -1;
-    for (int i = 0;; i++)
-    {
-        if (buf[i] == '\0')
-        {
-            len = i;
-            break;
-        }
-    }
-
-    int offset = len / 2;
-    int sum_1 = 0;
-    int sum_2 = 0;
+    int len = size - 1, sum_1 = 0, sum_2 = 0;
     for (int i = 0; i < len; i++)
     {
-        if (buf[i] == buf[(i + offset) % len])
+        int digit = as_digit(buf[i], 10);
+        if (buf[i] == buf[(i + (len / 2)) % len])
         {
-            sum_2 += as_digit(buf[i], 10);
+            sum_2 += digit;
         }
         if (buf[i] == buf[(i + 1) % len])
         {
-            sum_1 += as_digit(buf[i], 10);
+            sum_1 += digit;
         }
     }
 
