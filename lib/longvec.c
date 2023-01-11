@@ -1,8 +1,9 @@
 #include "longvec.h"
+#include "limits.h"
 
 struct Vector *lv_new()
 {
-    struct Vector *vec = malloc(sizeof(struct Vector));
+    VEC *vec = malloc(sizeof(struct Vector));
     vec->cur_size = 0;
     vec->max_size = 10;
     vec->start = (long *)malloc(sizeof(long) * 10);
@@ -10,7 +11,17 @@ struct Vector *lv_new()
     return vec;
 }
 
-long lv_push(struct Vector *vec, long elem)
+long lv_get(VEC *vec, size_t idx)
+{
+    if (idx >= vec->cur_size)
+    {
+        return -1;
+    }
+
+    return vec->start[idx];
+}
+
+long lv_push(VEC *vec, long elem)
 {
     // If the vector is full double it's size
     if (vec->cur_size == vec->max_size)
@@ -31,19 +42,19 @@ long lv_push(struct Vector *vec, long elem)
     return vec->cur_size;
 }
 
-long lv_pop(struct Vector *vec)
+long lv_pop(VEC *vec)
 {
     vec->cur_size--;
 
     return lv_peek(vec);
 }
 
-long lv_peek(struct Vector *vec)
+long lv_peek(VEC *vec)
 {
     return vec->start[vec->cur_size - 1];
 }
 
-long lv_remove_idx(struct Vector *vec, long idx)
+long lv_remove_idx(VEC *vec, size_t idx)
 {
     if (idx > vec->cur_size)
     {
@@ -59,7 +70,7 @@ long lv_remove_idx(struct Vector *vec, long idx)
     return vec->cur_size--;
 }
 
-void lv_dbg(struct Vector *vec)
+void lv_dbg(VEC *vec)
 {
     printf("Vec(size=%ld, max_size=%ld, elements=[", vec->cur_size, vec->max_size);
     for (long i = 0; i < vec->cur_size; i++)
@@ -73,7 +84,7 @@ void lv_dbg(struct Vector *vec)
     printf("]\n");
 }
 
-long long lv_sum(struct Vector *vec)
+long long lv_sum(VEC *vec)
 {
     long long sum = 0;
     for (int i = 0; i < vec->cur_size; i++)
@@ -82,4 +93,26 @@ long long lv_sum(struct Vector *vec)
     }
 
     return sum;
+}
+
+long lv_min(VEC *vec)
+{
+    long min = LONG_MAX;
+    for (int i = 0; i < vec->cur_size; i++)
+    {
+        min = vec->start[i] < min ? vec->start[i] : min;
+    }
+
+    return min;
+}
+
+long lv_max(VEC *vec)
+{
+    long max = LONG_MIN;
+    for (int i = 0; i < vec->cur_size; i++)
+    {
+        max = max > vec->start[i] ? max : vec->start[i];
+    }
+
+    return max;
 }
