@@ -3,7 +3,7 @@
 int as_digit(const char c, const int radix)
 {
     int n = c - '0';
-    if (n > radix)
+    if (n > radix || radix > 10)
     {
         return -1;
     }
